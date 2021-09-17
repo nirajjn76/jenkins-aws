@@ -1,0 +1,80 @@
+
+def gv
+pipeline 
+{
+    agent any
+    
+ parameters 
+ {
+        
+        booleanParam(name: 'executeTesting', defaultValue: true, description: '')
+    }
+
+    stages 
+    {
+         stage('SCM Checkout')
+        {
+           steps 
+           {
+              
+                 git branch: 'master', credentialsId: 'GITLAB_CRED', url: 'https://gitlab.com/siddharth.alhat/git-docker-jenkins-task-AWS.git'
+            }
+        }
+
+stage('Maven Package')
+        {
+          steps
+            {
+              script
+                {
+                   sh "mvn clean package install"
+                }
+            } 
+        }
+
+
+
+        stage('Build Docker Image') 
+        {
+            steps 
+            {
+               
+                sh ' docker build -t siddharthalhat001/job-1-image:$BUILD_NUMBER .'
+               
+            }
+        }
+             
+        stage("test") 
+        {
+            when 
+            {
+                expression 
+                {
+                
+                    params.executeTesting
+                }
+            }
+            steps 
+            {
+                echo "Testing Phase"
+            }
+            
+        }
+
+        stage('Push Image to Docker Hub') 
+        {
+            steps 
+            {
+               withCredentials([usernameColonPassword(credentialsId: '45b94395-8fb4-45ac-aec1-0487d52c4c6f', variable: 'docker-credentials')])
+                { 
+                sh ' docker push siddharthalhat001/job-1-image:$BUILD_NUMBER'
+            }
+
+            }
+        }
+
+}
+
+}
+
+
