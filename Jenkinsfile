@@ -11,7 +11,7 @@ pipeline
            steps 
            {
               
-                 git branch: 'master', credentialsId: 'GITLAB_CRED', url: 'https://gitlab.com/siddharth.alhat/hello-world.git'
+                 git branch: 'master', credentialsId: 'GITLAB_CRED', url: 'https://gitlab.com/siddharth.alhat/git-docker-jenkins-task-AWS.git'
             }
         }
 
