@@ -7,6 +7,7 @@ Simple Maven Project
 **Create 2 EC2 Instances**
 
 1st Instance
+
 Step-1 : Setup Jenkins
 
 echo "update"
@@ -45,6 +46,7 @@ echo "enable jenkins"
 systemctl enable jenkins
 
 Step-2 : Configure Jenkins
+
 -> Install the plugins. (Git, Credentials Binding Plugin, Docker plugin, docker-build-step )
  Create two Pipeline-Jobs  In pipeline section write code. I choose to take code from SCM and after that mention the jenkinsfile name (Mostly the file name is Jenkinsfile)
 
@@ -79,12 +81,16 @@ Step-2 : Configure Jenkins
 
 
 2nd Instance
+
 Step-1 : Setup Tomcat
+
 #update adn Install Java
 apt-get update
 apt-get install openjdk-8-jdk -y
+
 #Change Directory
 cd /opt
+
 #Download and Extract
 wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.71/bin/apache-tomcat-8.5.71.tar.gz
 tar -xvzf apache-tomcat-8.5.71.tar.gz 
@@ -95,6 +101,7 @@ chmod +x apache-tomcat-8.5.71/
 #Creating a Softlink 
 ln -s /opt/apache-tomcat-8.5.71/bin/startup.sh /usr/local/bin/tomcatup
 ln -s /opt/apache-tomcat-8.5.71/bin/shutdown.sh /usr/local/bin/tomcatdown
+
 #Search and delete the line starting with value
 find / -name  tomcat-users.xml
 above command gives 3 context.xml files. comment () Value ClassName field on files which are under webapp directory. After that restart tomcat services to effect these changes
